@@ -18,8 +18,12 @@ class Queue:
     def enqueue(self, element):
         temp = Node(element)
         if self.end:
-            temp.next = self.end
-        self.end = temp
+            ances = self.end
+            while ances.next:
+                ances = ances.next
+            ances.next = temp
+        else:
+            self.end = temp
         self.size += 1
 
     def dequeue(self):
