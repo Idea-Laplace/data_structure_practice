@@ -7,7 +7,8 @@ class Node:
 class Queue:
     def __init__(self):
         self.size = 0
-        self.end = None
+        self.exit = None
+        self.entr = None
 
     def is_empty(self):
         return self.size == 0
@@ -17,26 +18,25 @@ class Queue:
 
     def enqueue(self, element):
         temp = Node(element)
-        if self.end:
-            ances = self.end
-            while ances.next:
-                ances = ances.next
-            ances.next = temp
+        if self.entr:
+            self.entr.next = temp
+            self.entr = temp
         else:
-            self.end = temp
+            self.exit = temp
+            self.entr = temp
         self.size += 1
 
     def dequeue(self):
-        if not self.end:
+        if not self.exit:
             raise IndexError
-        value = self.end.data
-        self.end = self.end.next
+        value = self.exit.data
+        self.exit = self.exit.next
         self.size -= 1
         return value
 
     def __repr__(self):
         expr = ' >> EXIT'
-        content = self.end
+        content = self.exit
         while content:
             expr = f' >> {content.data}' + expr
             content = content.next
@@ -48,7 +48,7 @@ class Queue:
 if __name__ == '__main__':
     queue = Queue()
     for i in range(10):
-        queue.enqueue(i*i+1)
+        queue.enqueue(i*i+i+1)
         print(queue)
     print()
     for i in range(10):
